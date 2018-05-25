@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>后台管理系统</title>
+	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="themes/icon.css">
+	<link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="js/jquery.ztree.all-3.5.min.js"></script>
+	
+	<script type="text/javascript">
+		var setting = {
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				
+				callback:{
+					// 子节点点击事件
+					onClick:function(event,treeId,treeNode,clickFlag){
+						// 设置父节点点击无反应
+						if(treeNode.page == null){
+							return;
+						}
+						
+						
+						// 如果选项卡已存在，则直接选中
+						if ($("#tt").tabs("exists", treeNode.name)) {
+							$("#tt").tabs("select", treeNode.name);
+						} else {
+							$("#tt").tabs("add",{
+								title:treeNode.name,
+								content:'<iframe style="width:100%;height:100%;overflow:hidden;" src="'+treeNode.page+'"></iframe>',
+								closable:true,
+								onSelectfunction(title){
+									alert(title + "is selected");
+								}
+							});
+						}
+					}
+				}
+		};
+		
+		var zNodes = [
+			{ id:1, pId:0, name:"商品分类管理", open:true},
+ 			{ id:2, pId:1, name:"分类查询",page:'http://www.baidu.com'},
+ 			{ id:3, pId:1, name:"分类添加",page:'http://www.jd.com'},
+ 			{ id:4, pId:1, name:"分类删除",page:"http://www.taobao.com"},
+ 			{ id:11, pId:0, name:"商品管理"},
+ 			{ id:22, pId:11, name:"商品查询"},
+ 			{ id:33, pId:11, name:"商品删除"},
+ 			{ id:44, pId:11, name:"商品修改"}
+		];
+		
+		$(function() {
+			// 初始化ztree
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+		});
+	</script>
+</head>
+<body>
+	<!-- data-options="fit:true" 填充父容器 -->
+	<div class="easyui-layout" data-options="fit:true">
+		<div data-options="region:'north'" style="height:100px"></div>
+		<div data-options="region:'south'" style="height:50px;"></div>
+		
+		<!-- class="easyui-accordion" 可折叠菜单 -->
+		<div class="easyui-accordion" data-options="region:'west'" title="数据菜单" style="width:200px;">
+			<div title="商品类别管理">
+				<ul id="treeDemo" class="ztree"></ul>
+			</div>
+			
+			<div title="商品管理">
+				<h3 style="color:#0099FF;">Accordion for jQuery</h3>
+				<p>Accordion is a part of easyui framework for jQuery. It lets you define your accordion component on web page more easily.</p>
+			</div>
+		</div>
+		
+		<div id="tt" class="easyui-tabs" data-options="region:'center',title:'数据显示'">
+			
+		</div>
+	</div>
+</body>
+</html>

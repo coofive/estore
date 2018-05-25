@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="themes/icon.css">
+	<link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="js/jquery.ztree.all-3.5.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#ff').form('submit', { 
+
+				success: function(data){ 
+
+				var data = eval('(' + data + ')'); // change the JSON string to javascript object 
+
+				if (data.success){ 
+
+				alert(data.message) 
+
+				} 
+
+				} 
+
+				});
+
+
+		});
+	</script>
+</head>
+<body>
+	<form id="ff" method="post">
+		<div>
+			<label for="name">Name:</label>
+			<input class="easyui-validatebox" type="text" name="name" data-options="required:true" />
+		</div>
+		<div>
+			<label for="email">Email:</label>
+			<input class="easyui-validatebox" type="text" name="email" data-options="validType:'email'" />
+		</div>
+	</form>
+</body>
+</html>
